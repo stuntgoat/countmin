@@ -55,17 +55,29 @@ func (i64a int64arr) Less(i, j int) bool {
 }
 
 
-// CountMin holds integer counts.
+// CountMin holds integer counts. For every value added to the data structure, we
+// hash it at each row, increment the column index that is the hashed value modulo the
+// number of columns.
 type CountMin struct {
+	// Specifies the number of columns in the 2D matrix.
 	width int64
+
+	// Specifies the number of rows in the 2D matrix.
 	depth int64
 
+	// Holds the total number of times this  sketch was incremented.
 	count int64
+
+	// Holds the 2D matrix of increment counts.
 	counts [][]int64
 
+	// These are pre-computed random numbers for use in the hashing
+	// function, which takes 2 values; in this case these 2 values
+	// and the number which will be hashed.
 	aHashes []int64
 	bHashes []int64
 }
+
 
 // MakeCM returns a new instance of a CountMin struct with `width` columns
 // and `depth` rows.
